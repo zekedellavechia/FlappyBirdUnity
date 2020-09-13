@@ -8,11 +8,16 @@ public class MoveLeft : MonoBehaviour
     float groundLength;
 
     BoxCollider2D groundCollider;
+
+    public float leftLimit;
     // Start is called before the first frame update
     void Start()
     {
+        if(gameObject.CompareTag("Ground"))
+        { 
         groundCollider = GetComponent<BoxCollider2D>();
         groundLength = groundCollider.size.x;
+        }
     }
 
     // Update is called once per frame
@@ -22,12 +27,24 @@ public class MoveLeft : MonoBehaviour
             transform.position.x - speed * Time.deltaTime,
             transform.position.y);
 
-        if(transform.position.x <= -groundLength)
+        if (gameObject.CompareTag("Ground"))
         {
-            transform.position = new Vector2(
-                transform.position.x + 2 * groundLength,
-                transform.position.y);
-        }    
+            if (transform.position.x <= -groundLength)
+            {
+                transform.position = new Vector2(
+                    transform.position.x + 2 * groundLength,
+                    transform.position.y);
+            }
+        }
+
+        if (gameObject.CompareTag("Column"))
+        {
+            if (transform.position.x <=leftLimit)
+            {
+                Destroy(gameObject);
+
+            }
+        }
         
     }
 }
